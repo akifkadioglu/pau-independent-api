@@ -3,7 +3,6 @@ package routes
 import (
 	"log"
 	"net/http"
-	"pamukkale_university/env"
 
 	"github.com/go-chi/chi"
 )
@@ -18,7 +17,7 @@ func InitProd() {
 	//s.Admin()
 	s.Errors()
 
-	err:=http.ListenAndServe(env.Getenv(env.PORT), s.Router)
+	err:=http.ListenAndServe(":10000", s.Router)
 	if err != nil {
 		log.Println(err.Error())
 	}
