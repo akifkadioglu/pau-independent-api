@@ -11,12 +11,9 @@ func TestIndex(t *testing.T) {
 	test.TestMain()
 	s := routes.InitTest()
 
-	// Create a New Request
-	req, _ := http.NewRequest("GET", routes.IndexRoute, nil)
+	req, _ := http.NewRequest("GET", "/public/index", nil)
 
-	// Execute Request
 	response := test.ExecuteRequest(req, s)
 
-	// Check the response code
-	test.CheckResponseCode(t, http.StatusNoContent, response.Code)
+	test.CheckResponseCode(t, http.StatusOK, response.Code)
 }

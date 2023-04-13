@@ -14,11 +14,16 @@ type Server struct {
 func InitProd() {
 	s := CreateServer()
 	s.Public()
+	//s.Admin()
+	s.Errors()
+
 	http.ListenAndServe(env.Getenv(env.PORT), s.Router)
 }
 
 func InitTest() *Server {
 	s := CreateServer()
 	s.Public()
+	s.Admin()
+	s.Errors()
 	return s
 }

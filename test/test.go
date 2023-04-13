@@ -2,6 +2,8 @@ package test
 
 import (
 	"context"
+	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -17,7 +19,7 @@ import (
 var err error
 
 func TestMain() {
-	env.Init()
+	env.InitTest()
 	PrepareDatabaseForTest()
 }
 
@@ -44,4 +46,13 @@ func CheckResponseCode(t *testing.T, expected, actual int) {
 	if expected != actual {
 		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
 	}
+}
+
+func MapToBody(mock map[string]any) *io.PipeReader {
+	pr, pw := io.Pipe()
+	go func() {
+		json.NewEncoder(pw).Encode(mock)
+		pw.Close()
+	}()
+	return pr
 }

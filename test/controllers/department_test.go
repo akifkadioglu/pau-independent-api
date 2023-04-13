@@ -10,13 +10,29 @@ import (
 func TestDepartments(t *testing.T) {
 	test.TestMain()
 	s := routes.InitTest()
+	t.Run("create", func(t *testing.T) {
 
-	// Create a New Request
-	req, _ := http.NewRequest("GET", routes.DepartmentsRoute, nil)
+		//prepare body
+		var body = test.MapToBody(map[string]any{
+			"code":        "6546451",
+			"name":        "deneme",
+			"degree_type": false,
+			"quota":       20,
+		})
 
-	// Execute Request
-	response := test.ExecuteRequest(req, s)
+		req, _ := http.NewRequest("POST", "/admin/department/create", body)
 
-	// Check the response code
-	test.CheckResponseCode(t, http.StatusOK, response.Code)
+		response := test.ExecuteRequest(req, s)
+
+		test.CheckResponseCode(t, http.StatusCreated, response.Code)
+	})
+
+	t.Run("all", func(t *testing.T) {
+		req, _ := http.NewRequest("GET", "/public/department/all", nil)
+
+		response := test.ExecuteRequest(req, s)
+
+		test.CheckResponseCode(t, http.StatusOK, response.Code)
+	})
+
 }

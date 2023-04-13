@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	env.Init()
+	env.InitProd()
 	database.Init()
 	routes.InitProd()
 }

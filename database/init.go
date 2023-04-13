@@ -2,7 +2,7 @@ package database
 
 import "pamukkale_university/ent"
 
-type Postgre struct{}
+type PostgreSQL struct{}
 type MySQL struct{}
 
 type IDatabase interface {
@@ -13,6 +13,6 @@ var err error
 var DBClient *ent.Client
 
 func Init() {
-	var db IDatabase = MySQL{}
+	var db IDatabase = PostgreSQL{}
 	db.main()
 }

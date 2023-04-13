@@ -4,12 +4,13 @@ import (
 	"context"
 	"log"
 	"pamukkale_university/ent"
+	"pamukkale_university/env"
 
 	_ "github.com/lib/pq"
 )
 
-func (d Postgre) main() {
-	DBClient, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
+func (d PostgreSQL) main() {
+	DBClient, err = ent.Open(env.Getenv(env.DB_CONNECTION), env.Getenv(env.DB_EXTERNAL_URL))
 	if err != nil {
 		log.Fatalf("failed opening connection to sqlite: %v", err)
 	}
