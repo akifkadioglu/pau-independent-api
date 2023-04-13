@@ -27,6 +27,14 @@ func InitProd() {
 	}
 }
 
+func InitLocal() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
+
 func InitTest() {
 	err := godotenv.Load("./../../.env")
 

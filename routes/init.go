@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 	"pamukkale_university/env"
 
@@ -17,7 +18,10 @@ func InitProd() {
 	//s.Admin()
 	s.Errors()
 
-	http.ListenAndServe(env.Getenv(env.PORT), s.Router)
+	err:=http.ListenAndServe(env.Getenv(env.PORT), s.Router)
+	if err != nil {
+		log.Println(err.Error())
+	}
 }
 
 func InitTest() *Server {
