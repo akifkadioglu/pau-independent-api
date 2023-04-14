@@ -18,6 +18,7 @@ func (s *Server) Public() {
 			p.Route("/department", func(d chi.Router) {
 				d.Get("/all", departmentcontroller.All)
 				d.Get("/fetch-by-id/{id}", departmentcontroller.FetchById)
+				d.Get("/fetch-by-degree-type/{type}", departmentcontroller.FetchByDegreeType)
 			})
 		})
 	})
@@ -32,7 +33,8 @@ func (s *Server) Admin() {
 			//departments
 			a.Route("/department", func(d chi.Router) {
 				d.Post("/create", departmentcontroller.Create)
-				d.Delete("/delete-by-id/{id}", departmentcontroller.DeleteById)
+				d.Delete("/delete-by-id/{id}", departmentcontroller.DeleteByID)
+				d.Put("/update-by-id/{id}", departmentcontroller.UpdateByID)
 			})
 		})
 	})

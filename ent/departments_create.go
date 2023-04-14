@@ -38,6 +38,14 @@ func (dc *DepartmentsCreate) SetDegreeType(b bool) *DepartmentsCreate {
 	return dc
 }
 
+// SetNillableDegreeType sets the "degree_type" field if the given value is not nil.
+func (dc *DepartmentsCreate) SetNillableDegreeType(b *bool) *DepartmentsCreate {
+	if b != nil {
+		dc.SetDegreeType(*b)
+	}
+	return dc
+}
+
 // SetQuota sets the "quota" field.
 func (dc *DepartmentsCreate) SetQuota(i int) *DepartmentsCreate {
 	dc.mutation.SetQuota(i)
@@ -93,6 +101,10 @@ func (dc *DepartmentsCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (dc *DepartmentsCreate) defaults() {
+	if _, ok := dc.mutation.DegreeType(); !ok {
+		v := departments.DefaultDegreeType
+		dc.mutation.SetDegreeType(v)
+	}
 	if _, ok := dc.mutation.ID(); !ok {
 		v := departments.DefaultID()
 		dc.mutation.SetID(v)

@@ -18,7 +18,7 @@ func (Departments) Fields() []ent.Field {
 			Default(uuid.New),
 		field.String("code"),
 		field.String("name"),
-		field.Bool("degree_type"),
+		field.Bool("degree_type").Default(false),
 		field.Int("quota"),
 	}
 }

@@ -85,8 +85,53 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// that controller update a department
+func UpdateByID(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	parsed_id, err := uuid.Parse(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("id is invalid"))
+		return
+	}
+
+	type Input struct {
+		Name       string `json:"name" validate:"required"`
+		Code       string `json:"code" validate:"required"`
+		DegreeType bool   `json:"degree_type" validate:"required"`
+		Quota      int    `json:"quota" validate:"required"`
+	}
+
+	var input Input
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	db := database.DBClient
+
+	_, err = db.Departments.Update().
+		Where(departments.ID(parsed_id)).
+		SetName(input.Name).
+		SetCode(input.Code).
+		SetDegreeType(input.DegreeType).
+		SetQuota(input.Quota).
+		Save(r.Context())
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("something went wrong"))
+		return
+	} else {
+		w.WriteHeader(http.StatusCreated)
+		return
+	}
+}
+
 // that controller return department what you want
-func DeleteById(w http.ResponseWriter, r *http.Request) {
+func DeleteByID(w http.ResponseWriter, r *http.Request) {
 	db := database.DBClient
 
 	id := chi.URLParam(r, "id")
@@ -107,6 +152,28 @@ func DeleteById(w http.ResponseWriter, r *http.Request) {
 		return
 	} else {
 		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+}
+
+func FetchByDegreeType(w http.ResponseWriter, r *http.Request) {
+	db := database.DBClient
+	degreeType := false
+	if chi.URLParam(r, "type") == "1" {
+		degreeType = true
+	}
+
+	departments, err := db.Departments.
+		Query().
+		Where(departments.DegreeType(degreeType)).
+		All(r.Context())
+		
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("something went wrong"))
+		return
+	} else {
+		render.JSON(w, r, departments)
 		return
 	}
 }

@@ -15,6 +15,10 @@ import (
 func init() {
 	departmentsFields := schema.Departments{}.Fields()
 	_ = departmentsFields
+	// departmentsDescDegreeType is the schema descriptor for degree_type field.
+	departmentsDescDegreeType := departmentsFields[3].Descriptor()
+	// departments.DefaultDegreeType holds the default value on creation for the degree_type field.
+	departments.DefaultDegreeType = departmentsDescDegreeType.Default.(bool)
 	// departmentsDescID is the schema descriptor for id field.
 	departmentsDescID := departmentsFields[0].Descriptor()
 	// departments.DefaultID holds the default value on creation for the id field.

@@ -13,7 +13,7 @@ var (
 		{Name: "id", Type: field.TypeUUID},
 		{Name: "code", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
-		{Name: "degree_type", Type: field.TypeBool},
+		{Name: "degree_type", Type: field.TypeBool, Default: false},
 		{Name: "quota", Type: field.TypeInt},
 	}
 	// DepartmentsTable holds the schema information for the "departments" table.

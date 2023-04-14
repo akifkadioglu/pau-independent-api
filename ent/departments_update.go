@@ -45,6 +45,14 @@ func (du *DepartmentsUpdate) SetDegreeType(b bool) *DepartmentsUpdate {
 	return du
 }
 
+// SetNillableDegreeType sets the "degree_type" field if the given value is not nil.
+func (du *DepartmentsUpdate) SetNillableDegreeType(b *bool) *DepartmentsUpdate {
+	if b != nil {
+		du.SetDegreeType(*b)
+	}
+	return du
+}
+
 // SetQuota sets the "quota" field.
 func (du *DepartmentsUpdate) SetQuota(i int) *DepartmentsUpdate {
 	du.mutation.ResetQuota()
@@ -149,6 +157,14 @@ func (duo *DepartmentsUpdateOne) SetName(s string) *DepartmentsUpdateOne {
 // SetDegreeType sets the "degree_type" field.
 func (duo *DepartmentsUpdateOne) SetDegreeType(b bool) *DepartmentsUpdateOne {
 	duo.mutation.SetDegreeType(b)
+	return duo
+}
+
+// SetNillableDegreeType sets the "degree_type" field if the given value is not nil.
+func (duo *DepartmentsUpdateOne) SetNillableDegreeType(b *bool) *DepartmentsUpdateOne {
+	if b != nil {
+		duo.SetDegreeType(*b)
+	}
 	return duo
 }
 

@@ -44,6 +44,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultDegreeType holds the default value on creation for the "degree_type" field.
+	DefaultDegreeType bool
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
